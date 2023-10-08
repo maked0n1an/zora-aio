@@ -7,12 +7,12 @@ from web3.eth import AsyncEth
 from web3.exceptions import TransactionNotFound
 from eth_account import Account as EthereumAccount
 
+from settings.settings import (
+    IS_LOW_GAS, MAX_FEE, MAX_PRIORITY
+)
 from utils.config import (
     CHAINS_DATA, 
-    ERC20_ABI, 
-    IS_LOW_GAS, 
-    MAX_FEE,
-    MAX_PRIORITY, 
+    ERC20_ABI
 )
 from utils.chain import Chain
 from utils.status import Status
