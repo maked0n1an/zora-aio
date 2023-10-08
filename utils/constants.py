@@ -1,3 +1,9 @@
+class Chain():
+    ETHEREUM    = 'ethereum'
+    ZORA        = 'zora'
+    OPTIMISM    = 'optimism'
+    BASE        = 'base'
+
 class Status():
     SUCCESS     = 'SUCCESS'
     FAILED      = 'FAILED'
@@ -10,3 +16,5 @@ class Status():
     BRIDGED     = 'BRIDGED'
     
     HAS_NFT     = 'HAS_NFT'
+    
+    DELAY       = 'DELAY'
