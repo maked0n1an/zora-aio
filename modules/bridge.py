@@ -2,9 +2,8 @@ import random
 
 from web3 import Web3
 
-from utils.chain import Chain
-from utils.gas_checker import check_gas
-from utils.status import Status
+from utils.checkers import check_gas
+from utils.constants import Status, Chain
 from utils.config import (    
     CHAINS_DATA,
     ZORA_BRIDGE_ABI,

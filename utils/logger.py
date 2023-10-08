@@ -1,7 +1,7 @@
 import sys
 from loguru import logger
 
-from utils.status import Status
+from utils.constants import Status
    
 def setup_logger_for_output():
     logger.remove()

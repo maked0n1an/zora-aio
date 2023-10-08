@@ -14,8 +14,7 @@ from utils.config import (
     CHAINS_DATA, 
     ERC20_ABI
 )
-from utils.chain import Chain
-from utils.status import Status
+from utils.constants import Status, Chain
 from utils.logger import logger
 
 class Account:
