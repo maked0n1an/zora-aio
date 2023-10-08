@@ -7,7 +7,13 @@ from web3.eth import AsyncEth
 from web3.exceptions import TransactionNotFound
 from eth_account import Account as EthereumAccount
 
-from utils.config import CHAINS_DATA, ERC20_ABI
+from utils.config import (
+    CHAINS_DATA, 
+    ERC20_ABI, 
+    IS_LOW_GAS, 
+    MAX_FEE,
+    MAX_PRIORITY, 
+)
 from utils.chain import Chain
 from utils.status import Status
 from utils.logger import logger
@@ -102,4 +108,20 @@ class Account:
                     logger.log(Status.FAILED, f'{tx_hash} - failed')
                     return False
                 await asyncio.sleep(1)
-                
+    
+    async def sign(self, transaction):
+        if IS_LOW_GAS:
+            transaction.update({
+                'gas': 100000,
+                'maxPriorityFeePerGas': int(MAX_PRIORITY * 10 ** 9),
+                'maxFeePerGas': int(MAX_FEE * 10 ** 9)
+            })
+            
+        signed_tx = self.w3.eth.account.sign_transaction(transaction, self.private_key)
+        
+        return signed_tx
+            
+    async def send_raw_transaction(self, signed_tx):
+        tx_hash = await self.w3.eth.send_raw_transaction(signed_tx.rawTransaction)
+        
+        return tx_hash   
