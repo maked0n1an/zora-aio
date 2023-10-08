@@ -110,6 +110,11 @@ class Account:
                 await asyncio.sleep(1)
     
     async def sign(self, transaction):
+        gas = await self.w3.eth.estimate_gas()        
+        gas = int(gas + gas * 0.3)
+
+        transaction.update({'gas': gas})
+        
         if IS_LOW_GAS:
             transaction.update({
                 'gas': 100000,
