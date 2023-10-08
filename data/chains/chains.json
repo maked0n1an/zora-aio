@@ -23,6 +23,13 @@
         "token": "AVAX",
         "chain_id": 43114
     },
+    "base": {
+        "rpc": [
+            "https://rpc.ankr.com/base"
+        ],
+        "explorer": "https://basescan.org/tx/",
+        "token": "ETH"
+    },
     "bsc": {
         "rpc": [
             "https://rpc.ankr.com/bsc"
@@ -174,6 +181,13 @@
         "explorer": "https://zkevm.polygonscan.com/tx/",
         "token": "ETH",
         "chain_id": 1101
+    },
+    "starknet": {
+        "rpc": [
+            "https://starknet-mainnet.infura.io/v3/"
+        ],
+        "explorer": "https://starkscan.co/tx/",
+        "token": "ETH"
     },
     "zk_sync": {
         "rpc": [
