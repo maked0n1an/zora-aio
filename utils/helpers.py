@@ -11,6 +11,7 @@ from settings.settings import (
     RETRY_COUNT
 )
 from utils.config import CHAINS_DATA
+from utils.constants import Chain
 from utils.exceptions import (
     InsufficientFundsException, 
     PendingException, 
@@ -22,7 +23,7 @@ from utils.sleeping import sleep
 
 def _get_gas():
     try:
-        w3 = Web3(Web3.HTTPProvider(random.choice(CHAINS_DATA["ethereum"]["rpc"])))
+        w3 = Web3(Web3.HTTPProvider(random.choice(CHAINS_DATA[Chain.ETHEREUM]["rpc"])))
         gas_price = w3.eth.gas_price
         gwei = w3.from_wei(gas_price, 'gwei')
         return gwei
