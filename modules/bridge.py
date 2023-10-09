@@ -2,7 +2,7 @@ import random
 
 from web3 import Web3
 
-from utils.checkers import check_gas
+from utils.helpers import check_gas
 from utils.constants import Status, Chain
 from utils.config import (    
     CHAINS_DATA,

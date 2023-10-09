@@ -1,9 +1,20 @@
 import random
+import traceback
 
 from web3 import Web3
-from utils.config import CHAINS_DATA
+from datetime import datetime
+
 from settings.settings import (
-    CHECK_GWEI, MAX_GWEI,MIN_ETH_BALANCE
+    CHECK_GWEI, 
+    MAX_GWEI,
+    MIN_ETH_BALANCE, 
+    RETRY_COUNT
+)
+from utils.config import CHAINS_DATA
+from utils.exceptions import (
+    InsufficientFundsException, 
+    PendingException, 
+    RunnerException
 )
 from utils.logger import logger
 from utils.sleeping import sleep
@@ -62,3 +73,45 @@ def check_eth_balance(func):
         return await func(self, *args, **kwargs)
 
     return _wrapper
+
+# decorator
+def retry(func):
+    async def _wrapper(*args, **kwargs):
+        retries = 0
+        while retries < RETRY_COUNT:
+            try:
+                result = await func(*args, **kwargs)
+                return result
+            except Exception as e:
+                logger.error(f"Error | {e}")
+                sleep(10, 60)
+                retries += 1
+
+    return _wrapper
+
+def retry_func(msg):
+    def _decorator(func):
+        @retry
+        def _wrapper(*args, **kwargs):
+            try:
+                return func(*args, **kwargs)
+            except(PendingException, InsufficientFundsException):
+                raise 
+            except RunnerException as e:
+                raise RunnerException(msg, e)
+            except Exception as e:
+                # handle_traceback(msg)
+                raise RunnerException(msg, e)
+    
+        return _wrapper
+    
+    return _decorator
+
+# def _handle_traceback(msg=''):
+#     logs = 'logs/'
+#     date_path = datetime.now().strftime('%d-%m-%Y-%H-%M-%S')
+    
+#     logs_path = logs + date_path
+    
+#     trace = traceback.format_exc()
+#     logger.print(msg + '\n' + trace, filename=f'{logs_path}/tracebacks.log', to_console=False, store_tg=False)
