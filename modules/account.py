@@ -34,7 +34,7 @@ class Account:
         self.address = self.account.address
 
     def get_contract(self, contract_address: str, contract_abi=None):
-        contract_address = Web3.to_checksum_address(contract_address)
+        contract_address = self.to_checksum_address(contract_address)
         
         if contract_abi is None:
             contract_abi = ERC20_ABI
@@ -58,10 +58,13 @@ class Account:
             "symbol": symbol,
             "decimal" : decimal
         }
+        
+    def to_checksum_address(contract: str) -> str:
+        return Web3.to_checksum_address(contract)
     
     async def check_allowance(self, token_address: str, contract_address: str) -> float:
-        token_address = Web3.to_checksum_address(token_address)
-        contract_address = Web3.to_checksum_address(contract_address)
+        token_address = self.to_checksum_address(token_address)
+        contract_address = self.to_checksum_address(contract_address)
 
         contract = await self.w3.eth.contract(address=token_address, abi=ERC20_ABI)
         amount_approved = contract.functions.allowance(self.address, contract_address).call()
